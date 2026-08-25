@@ -122,10 +122,11 @@ bash scripts/wire_deploy.sh
 
 ### Vercel project settings
 
-- **Root Directory:** `web` ✓
-- **Framework:** Next.js (auto)
-- Only `web/vercel.json` is used — no root-level `vercel.json` (avoids double-prefix build commands)
-- Worker FastAPI lives in `worker/railway_app.py` (Railway only, not deployed to Vercel)
+- **Root Directory:** `web` (exactly — lowercase, no leading `/`)
+- **Framework Preset:** Next.js
+- `package.json` with `"next"` lives at `web/package.json`
+- If Root Directory is blank, repo-root `vercel.json` + `package.json` build `web/` as fallback
+- Worker FastAPI is `worker/railway_app.py` (Railway only)
 
 ## 6. Security checklist
 

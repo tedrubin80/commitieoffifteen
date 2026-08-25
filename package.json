@@ -1,0 +1,12 @@
+{
+  "name": "committee-of-fifteen",
+  "private": true,
+  "description": "Monorepo root — Vercel Root Directory should be web/. This file is a fallback if root dir is unset.",
+  "scripts": {
+    "build": "npm run build --prefix web",
+    "dev": "npm run dev --prefix web"
+  },
+  "dependencies": {
+    "next": "15.1.0"
+  }
+}
