@@ -1,0 +1,267 @@
+:root {
+  --bg: #faf7f2;
+  --ink: #1a1510;
+  --muted: #5c534a;
+  --accent: #9f1239;
+  --border: #e7dfd4;
+  --card: #fffdf9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+a {
+  color: var(--accent);
+}
+
+.siteHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--card);
+}
+
+.siteHeader nav {
+  display: flex;
+  gap: 1.25rem;
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.siteFooter {
+  padding: 1.5rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.hero {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 1rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.15;
+  margin: 0 0 0.75rem;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.statCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.statCard strong {
+  display: block;
+  font-size: 1.6rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.65rem 1.1rem;
+  background: var(--accent);
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-family: system-ui, sans-serif;
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.pageGrid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 120px);
+}
+
+@media (max-width: 900px) {
+  .pageGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.sidebar {
+  border-right: 1px solid var(--border);
+  padding: 1rem;
+  background: var(--card);
+  overflow: auto;
+}
+
+.sidebar h2 {
+  font-size: 1rem;
+  margin: 0 0 0.75rem;
+  font-family: system-ui, sans-serif;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 0.35rem;
+}
+
+.sidebar button,
+.sidebar a.rowLink {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 0.35rem 0;
+  cursor: pointer;
+  font: inherit;
+  color: var(--ink);
+  text-decoration: none;
+  display: block;
+}
+
+.sidebar button.active {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.mapWrap {
+  position: relative;
+  min-height: 520px;
+}
+
+.mapCanvas {
+  width: 100%;
+  height: min(72vh, 720px);
+}
+
+.mapMeta {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  background: rgba(255, 253, 249, 0.92);
+  padding: 0.35rem 0.6rem;
+  border-radius: 4px;
+  font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+.searchPanel {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.searchForm {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.searchForm input,
+.searchForm select {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: inherit;
+}
+
+.searchForm input {
+  flex: 1;
+}
+
+.results {
+  list-style: none;
+  padding: 0;
+}
+
+.results li {
+  border: 1px solid var(--border);
+  background: var(--card);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.recordPage {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 800px) {
+  .recordPage {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recordPage img {
+  max-width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.ocrBox {
+  white-space: pre-wrap;
+  font-family: ui-monospace, monospace;
+  font-size: 0.85rem;
+  background: #f3ede4;
+  padding: 1rem;
+  border-radius: 6px;
+  max-height: 480px;
+  overflow: auto;
+}
+
+.muted {
+  color: var(--muted);
+}

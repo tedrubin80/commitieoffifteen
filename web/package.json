@@ -1,0 +1,26 @@
+{
+  "name": "committee-of-fifteen-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@vercel/postgres": "^0.10.0",
+    "maplibre-gl": "^4.7.1",
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "supercluster": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/supercluster": "^7.1.3",
+    "typescript": "^5.7.0"
+  }
+}

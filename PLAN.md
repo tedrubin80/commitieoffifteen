@@ -262,14 +262,14 @@ Period lexicon buckets:
 ## Build order (checklist)
 
 - [ ] **0.** Finish local OCR (`tmux cof-ocr`) + re-run `enrich.py`
-- [ ] **1.** Scaffold `web/` (Next.js 15) + `worker/` (Python 3.12)
-- [ ] **2.** `db/migrations/001_init.sql` → apply to Vercel Postgres
+- [x] **1.** Scaffold `web/` (Next.js 15) + `worker/` (Python 3.12)
+- [x] **2.** `db/migrations/001_init.sql` → apply to Vercel Postgres
 - [ ] **3.** `worker/seed.py` → load 1,731 records
 - [ ] **4.** `worker/geocode.py` → fill `cof_geocodes`
 - [ ] **5.** Map page live on Vercel preview
-- [ ] **6.** `worker/ocr.py` + `worker/mine.py` → documents + terms
-- [ ] **7.** Search page + FTS
-- [ ] **8.** Custom domain + about/provenance page (portfolio copy)
+- [ ] **6.** `worker/ocr_sync.py` + `worker/mine.py` → documents + terms
+- [x] **7.** Search page + FTS (UI ready; needs DB populated)
+- [ ] **8.** Custom domain + HF/Kaggle dataset upload
 
 ---
 

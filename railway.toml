@@ -1,0 +1,9 @@
+# Railway: set Root Directory to repo root; uses worker/Dockerfile
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "worker/Dockerfile"
+
+[deploy]
+healthcheckPath = "/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"

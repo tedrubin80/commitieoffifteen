@@ -93,15 +93,19 @@ docker compose exec committee-of-fifteen python src/crawl.py
 
 ## Deployment plan
 
-Full architecture: [PLAN.md](PLAN.md)
+Full architecture: [PLAN.md](PLAN.md) · Step-by-step: [docs/DEPLOY.md](docs/DEPLOY.md)
 
 | Component | Platform |
 |-----------|----------|
-| Map + search UI | **Vercel** (Next.js) |
+| Map + search UI | **Vercel** (`web/`) |
 | Postgres | **Vercel Postgres** |
-| Geocode / OCR / mining workers | **Railway** (Python) |
+| Geocode / OCR sync / mining | **Railway** (`worker/`) |
 
-Build order: geocode → map → text mining → search.
+```bash
+# Vercel: import repo, root directory = web
+# Railway: import repo, uses railway.toml at root
+# Then: POST /jobs/pipeline on worker (see DEPLOY.md)
+```
 
 ---
 
