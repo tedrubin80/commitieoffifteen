@@ -2,6 +2,15 @@
 
 **Repo:** https://github.com/tedrubin80/commitieoffifteen (public — secrets only in dashboards)
 
+## Which platform for what
+
+| Component | Platform | Root directory |
+|-----------|----------|----------------|
+| **Web** (Next.js) | **Vercel** | `web` |
+| **Worker** (FastAPI) | **Railway** | repo root (empty) — **not Vercel** |
+
+FastAPI / “no Next.js” errors on the **worker** mean it was pointed at **Vercel** by mistake. Use [worker/README.md](../worker/README.md).
+
 ## 1. Vercel Postgres
 
 1. Vercel → Storage → Postgres → create / link to project
@@ -18,8 +27,9 @@ Or trigger via Railway worker: `POST /jobs/migrate`
 ## 2. Railway worker
 
 1. New project from GitHub repo `tedrubin80/commitieoffifteen`
-2. **Root directory:** repo root (uses `railway.toml` + `worker/Dockerfile`)
-3. Env (copy from Vercel — use **non-pooling** URL for writes):
+2. **Root Directory:** **empty** (repo root) — not `web`, not `worker`
+3. Builder: Dockerfile via `railway.toml` → `worker/Dockerfile`
+5. Env (copy from Vercel — use **non-pooling** URL for writes):
 
 | Variable | Source |
 |----------|--------|
@@ -30,7 +40,7 @@ Or trigger via Railway worker: `POST /jobs/migrate`
 | `WORKER_SECRET` | random string — protects `/jobs/*` |
 | `DATA_DIR` | `/data` if using Railway volume with processed parquet + ocr |
 
-4. Optional volume mounted at `/data`:
+6. Optional volume mounted at `/data`:
    - `processed/committee_of_fifteen_enriched.parquet`
    - `ocr/*.txt`
 
