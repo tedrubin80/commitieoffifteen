@@ -1,0 +1,13 @@
+services:
+  committee-of-fifteen:
+    build: .
+    ports:
+      - "8891:8891"
+      - "8504:8504"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/workspace/data
+      - ./src:/workspace/src
+    working_dir: /workspace
+    restart: unless-stopped

@@ -1,0 +1,40 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+kaggle.json
+**/secrets/
+
+# Local corpus (large; publish via HF/Kaggle scripts)
+data/raw/
+data/images/
+data/ocr/
+data/processed/
+data/api_usage.jsonl
+data/*.log
+exports/
+
+# Python
+__pycache__/
+.venv/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node (future web/)
+node_modules/
+.next/
+.vercel/
+
+# Jupyter / Docker
+.ipynb_checkpoints/
+data/build.log
+
+# OS / IDE
+.DS_Store
+*.swp
+.idea/
+.vscode/
