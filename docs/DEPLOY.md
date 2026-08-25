@@ -44,7 +44,7 @@ Or trigger via Railway worker: `POST /jobs/migrate`
    - `processed/committee_of_fifteen_enriched.parquet`
    - `ocr/*.txt`
 
-5. Health check: `GET /health`
+7. Health check: `GET /health`
 
 ### Run pipeline
 

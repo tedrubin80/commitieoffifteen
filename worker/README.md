@@ -11,8 +11,10 @@ This service is a **Python FastAPI** batch worker:
 ## Railway setup
 
 1. [railway.app/new](https://railway.app/new) → **Deploy from GitHub** → `tedrubin80/commitieoffifteen`
-2. **Root Directory:** leave **empty** (repo root) — not `web`, not `worker`
-3. Builder: **Dockerfile** (`railway.toml` → `worker/Dockerfile`)
+2. **Root Directory:** either works:
+   - **`worker`** (recommended) — uses `worker/Dockerfile` + `worker/railway.toml`
+   - **empty** (repo root) — uses root `Dockerfile` + `railway.toml`
+3. **Builder:** Dockerfile (not Nixpacks / not Vercel)
 4. **Public networking:** generate a domain (for `/health` and `/jobs/*`)
 5. **Variables:**
 

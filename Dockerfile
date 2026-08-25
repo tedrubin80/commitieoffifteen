@@ -1,24 +1,19 @@
 FROM python:3.12-slim
 
-WORKDIR /workspace
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    curl \
-    tesseract-ocr \
-    tesseract-ocr-eng \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY requirements.txt .
+COPY worker/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src/ /workspace/src/
-COPY README.md /workspace/README.md
+COPY worker/ /app/worker/
+COPY db/ /app/db/
 
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONPATH=/workspace \
-    DATA_DIR=/workspace/data
+WORKDIR /app/worker
 
-EXPOSE 8891 8504
+ENV PYTHONUNBUFFERED=1
+ENV DATA_DIR=/data
+ENV PORT=8080
 
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8891", "--no-browser", "--allow-root", \
-     "--NotebookApp.token=", "--NotebookApp.password="]
+EXPOSE 8080
+
+CMD ["sh", "-c", "uvicorn railway_app:app --host 0.0.0.0 --port ${PORT:-8080}"]

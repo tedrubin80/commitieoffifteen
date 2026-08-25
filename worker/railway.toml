@@ -1,4 +1,4 @@
-# Railway service Root Directory = repo root (empty)
+# Railway service Root Directory = worker
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"

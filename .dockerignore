@@ -1,0 +1,8 @@
+data/
+exports/
+.git/
+web/node_modules/
+web/.next/
+**/__pycache__/
+*.pyc
+.env

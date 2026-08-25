@@ -10,7 +10,17 @@ from typing import Iterator
 import psycopg
 from psycopg.rows import dict_row
 
-MIGRATION = Path(__file__).resolve().parents[1] / "db" / "migrations" / "001_init.sql"
+MIGRATION_CANDIDATES = (
+    Path(__file__).resolve().parent / "migrations" / "001_init.sql",
+    Path(__file__).resolve().parents[1] / "db" / "migrations" / "001_init.sql",
+)
+
+
+def migration_path() -> Path:
+    for path in MIGRATION_CANDIDATES:
+        if path.exists():
+            return path
+    raise FileNotFoundError(f"No migration SQL found in {MIGRATION_CANDIDATES}")
 
 
 def db_url() -> str:
@@ -27,8 +37,9 @@ def connect() -> Iterator[psycopg.Connection]:
 
 
 def migrate() -> None:
-    sql = MIGRATION.read_text()
+    path = migration_path()
+    sql = path.read_text()
     with connect() as conn:
         conn.execute(sql)
         conn.commit()
-    print(f"Applied migration → {MIGRATION.name}")
+    print(f"Applied migration → {path}")
