@@ -92,7 +92,37 @@ kaggle datasets create -p ./exports/kaggle -r zip
 
 Never upload `.env`, API tokens, or raw NYPL JPEGs.
 
-## 5. Security checklist
+## 5. GitHub Actions (recommended)
+
+Workflows in `.github/workflows/`:
+
+| Workflow | Trigger | Purpose |
+|----------|---------|---------|
+| `deploy.yml` | push to `main` | Vercel web + Railway worker |
+| `pipeline.yml` | manual | POST `/jobs/pipeline` on worker |
+
+### GitHub secrets (repo → Settings → Secrets → Actions)
+
+| Secret | Source |
+|--------|--------|
+| `VERCEL_TOKEN` | [vercel.com/account/tokens](https://vercel.com/account/tokens) |
+| `VERCEL_ORG_ID` | `cd web && vercel link` → `.vercel/project.json` → `orgId` |
+| `VERCEL_PROJECT_ID` | same file → `projectId` |
+| `RAILWAY_TOKEN` | [railway.app/account/tokens](https://railway.app/account/tokens) |
+| `RAILWAY_PROJECT_ID` | Railway project → Settings |
+| `RAILWAY_SERVICE_ID` | Worker service → Settings |
+| `RAILWAY_WORKER_URL` | Worker public URL (for pipeline workflow) |
+| `WORKER_SECRET` | Same as Railway `WORKER_SECRET` env |
+
+Helper script (run locally after `vercel link`):
+
+```bash
+bash scripts/wire_deploy.sh
+```
+
+**Vercel project:** Root Directory = `web`. Disable Git auto-deploy if using Actions-only (Settings → Git → Ignored Build Step: `exit 0`).
+
+## 6. Security checklist
 
 - [ ] `.env` not in git (`python scripts/check_secrets.py` before push)
 - [ ] `WORKER_SECRET` set on Railway before exposing worker URL

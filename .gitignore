@@ -28,6 +28,7 @@ __pycache__/
 node_modules/
 .next/
 .vercel/
+web/.vercel/
 
 # Jupyter / Docker
 .ipynb_checkpoints/

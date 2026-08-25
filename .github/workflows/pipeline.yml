@@ -1,0 +1,37 @@
+name: Run worker pipeline
+
+# After deploy + Postgres seeded, run jobs on Railway worker (migrate/seed/geocode/ocr/mine).
+on:
+  workflow_dispatch:
+    inputs:
+      job:
+        description: Job to run
+        required: true
+        default: pipeline
+        type: choice
+        options:
+          - migrate
+          - seed
+          - geocode
+          - ocr-sync
+          - mine
+          - pipeline
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Railway worker job
+        run: |
+          set -euo pipefail
+          BASE="${{ secrets.RAILWAY_WORKER_URL }}"
+          SECRET="${{ secrets.WORKER_SECRET }}"
+          JOB="${{ github.event.inputs.job }}"
+          if [ -z "$BASE" ] || [ -z "$SECRET" ]; then
+            echo "Set GitHub secrets RAILWAY_WORKER_URL and WORKER_SECRET"
+            exit 1
+          fi
+          curl -fsS -X POST "${BASE}/jobs/${JOB}" \
+            -H "Authorization: Bearer ${SECRET}" \
+            -H "Content-Type: application/json"
+          echo "Triggered /jobs/${JOB}"
