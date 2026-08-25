@@ -122,8 +122,10 @@ bash scripts/wire_deploy.sh
 
 ### Vercel project settings
 
-- **Root Directory:** `web` (preferred), **or** repo root with root `vercel.json` (builds `web/` via `--prefix web`)
-- If deploy fails on `src/app.py`, ensure Root Directory is `web` or pull latest (Streamlit app renamed to `streamlit_app.py`, root `.vercelignore` added)
+- **Root Directory:** `web` ✓
+- **Framework:** Next.js (auto)
+- Only `web/vercel.json` is used — no root-level `vercel.json` (avoids double-prefix build commands)
+- Worker FastAPI lives in `worker/railway_app.py` (Railway only, not deployed to Vercel)
 
 ## 6. Security checklist
 
