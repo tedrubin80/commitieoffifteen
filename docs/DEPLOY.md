@@ -120,7 +120,10 @@ Helper script (run locally after `vercel link`):
 bash scripts/wire_deploy.sh
 ```
 
-**Vercel project:** Root Directory = `web`. Disable Git auto-deploy if using Actions-only (Settings → Git → Ignored Build Step: `exit 0`).
+### Vercel project settings
+
+- **Root Directory:** `web` (preferred), **or** repo root with root `vercel.json` (builds `web/` via `--prefix web`)
+- If deploy fails on `src/app.py`, ensure Root Directory is `web` or pull latest (Streamlit app renamed to `streamlit_app.py`, root `.vercelignore` added)
 
 ## 6. Security checklist
 

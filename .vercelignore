@@ -1,0 +1,15 @@
+# Local crawl / worker code — not part of Vercel web deploy
+src/
+worker/
+scripts/
+data/
+exports/
+db/
+*.py
+requirements.txt
+Dockerfile
+docker-compose.yml
+railway.toml
+PLAN.md
+docs/
+.env.example
