@@ -4,7 +4,7 @@ import type { FeatureCollection } from "geojson";
 
 export async function GET(request: Request) {
   if (!(await dbConfigured())) {
-    return NextResponse.json({ error: "POSTGRES_URL not configured" }, { status: 503 });
+    return NextResponse.json({ error: "Database not configured (set DATABASE_URL)" }, { status: 503 });
   }
   const { searchParams } = new URL(request.url);
   const precinct = searchParams.get("precinct");

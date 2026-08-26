@@ -3,7 +3,7 @@ import { dbConfigured, searchRecords } from "@/lib/db";
 
 export async function GET(request: Request) {
   if (!(await dbConfigured())) {
-    return NextResponse.json({ error: "POSTGRES_URL not configured" }, { status: 503 });
+    return NextResponse.json({ error: "Database not configured (set DATABASE_URL)" }, { status: 503 });
   }
   const { searchParams } = new URL(request.url);
   const q = searchParams.get("q") || "";

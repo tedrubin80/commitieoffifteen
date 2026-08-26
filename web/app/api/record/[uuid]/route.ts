@@ -6,7 +6,7 @@ export async function GET(
   { params }: { params: Promise<{ uuid: string }> },
 ) {
   if (!(await dbConfigured())) {
-    return NextResponse.json({ error: "POSTGRES_URL not configured" }, { status: 503 });
+    return NextResponse.json({ error: "Database not configured (set DATABASE_URL)" }, { status: 503 });
   }
   const { uuid } = await params;
   try {

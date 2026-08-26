@@ -1,0 +1,74 @@
+// Prisma schema for Committee of Fifteen (Vercel Postgres / Neon via Prisma)
+// Shared with Railway worker via the same DATABASE_URL / POSTGRES_URL
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Set DATABASE_URL to the Prisma/Neon pooled URL from Vercel.
+  // For migrate/db push from CLI, use DIRECT_URL or POSTGRES_URL_NON_POOLING in shell.
+  url      = env("DATABASE_URL")
+}
+
+model CofRecord {
+  uuid         String   @id @db.Uuid
+  title        String
+  addressNorm  String?  @map("address_norm")
+  titleKind    String?  @map("title_kind")
+  precinct     String?
+  precinctNum  Int?     @map("precinct_num") @db.SmallInt
+  dateStart    Int?     @map("date_start") @db.SmallInt
+  dateEnd      Int?     @map("date_end") @db.SmallInt
+  nyplImageId  String?  @map("nypl_image_id")
+  nyplItemUrl  String?  @map("nypl_item_url")
+  genres       String[] @default([])
+  hostChain    String?  @map("host_chain")
+
+  document CofDocument?
+  terms    CofTerm[]
+
+  @@index([precinctNum], map: "cof_records_precinct")
+  @@index([addressNorm], map: "cof_records_address")
+  @@index([titleKind], map: "cof_records_title_kind")
+  @@map("cof_records")
+}
+
+model CofGeocode {
+  addressNorm String    @id @map("address_norm")
+  query       String
+  lat         Float?
+  lng         Float?
+  geoSource   String?   @map("geo_source")
+  confidence  Float?
+  status      String    @default("pending")
+  raw         Json?
+  geocodedAt  DateTime? @default(now()) @map("geocoded_at") @db.Timestamptz(6)
+
+  @@index([status], map: "cof_geocodes_status")
+  @@map("cof_geocodes")
+}
+
+model CofDocument {
+  uuid      String  @id @db.Uuid
+  ocrText   String? @map("ocr_text")
+  charCount Int?    @map("char_count")
+  quality   String?
+
+  record CofRecord @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+
+  @@map("cof_documents")
+}
+
+model CofTerm {
+  uuid     String @db.Uuid
+  term     String
+  category String
+  count    Int    @default(1)
+
+  record CofRecord @relation(fields: [uuid], references: [uuid], onDelete: Cascade)
+
+  @@id([uuid, term, category])
+  @@map("cof_terms")
+}

@@ -6,23 +6,37 @@
 
 | Component | Platform | Root directory |
 |-----------|----------|----------------|
-| **Web** (Next.js) | **Vercel** | `web` |
-| **Worker** (FastAPI) | **Railway** | repo root (empty) — **not Vercel** |
+| **Web** (Next.js + Prisma) | **Vercel** | `web` |
+| **Worker** (FastAPI) | **Railway** | `worker` or repo root — **not Vercel** |
+| **Database** | Vercel Postgres / Neon via **Prisma** | shared by both |
 
 FastAPI / “no Next.js” errors on the **worker** mean it was pointed at **Vercel** by mistake. Use [worker/README.md](../worker/README.md).
 
-## 1. Vercel Postgres
+## 1. Prisma + Vercel Postgres
 
-1. Vercel → Storage → Postgres → create / link to project
-2. `POSTGRES_URL` and `POSTGRES_URL_NON_POOLING` auto-inject into the **web** project
+You already have Prisma connected on Vercel and wired into Railway. Map env vars:
 
-Apply schema (from your machine, once):
+| App | Env var | Value |
+|-----|---------|--------|
+| **Vercel `web/`** | `DATABASE_URL` | Prisma / Neon **pooled** URL (Prisma Client) |
+| **Railway worker** | `POSTGRES_URL` or `DATABASE_URL` | Same DB — prefer **non-pooling / direct** URL for writes |
 
-```bash
-psql "$POSTGRES_URL_NON_POOLING" -f db/migrations/001_init.sql
+If Vercel injects `POSTGRES_PRISMA_URL`, either rename/copy it to `DATABASE_URL` in project settings, or set:
+
+```
+DATABASE_URL=$POSTGRES_PRISMA_URL
 ```
 
-Or trigger via Railway worker: `POST /jobs/migrate`
+Apply schema once (SQL matches Prisma models in `web/prisma/schema.prisma`):
+
+```bash
+# from web/ with DATABASE_URL set (or use non-pooling URL):
+cd web && npx prisma db push
+
+# or via worker:
+psql "$POSTGRES_URL_NON_POOLING" -f db/migrations/001_init.sql
+# or Railway: POST /jobs/migrate
+```
 
 ## 2. Railway worker
 
@@ -33,7 +47,7 @@ Or trigger via Railway worker: `POST /jobs/migrate`
 
 | Variable | Source |
 |----------|--------|
-| `POSTGRES_URL` | Vercel Postgres → non-pooling connection string |
+| `POSTGRES_URL` or `DATABASE_URL` | Same Prisma DB — **non-pooling / DIRECT_URL** preferred |
 | `NYC_GEOCLIENT_APP_ID` | [NYC API portal](https://api-portal.nyc.gov/) |
 | `NYC_GEOCLIENT_APP_KEY` | same |
 | `MAPBOX_TOKEN` | optional fallback geocoder |
@@ -80,7 +94,7 @@ Geocode full run ~30 min at 1 req/s for ~1,708 addresses.
 
 1. Import repo → **Root Directory:** `web`
 2. Framework: Next.js (auto)
-3. Env: `POSTGRES_URL` from Vercel Postgres integration (pooled URL is fine for reads)
+3. Env: `DATABASE_URL` = Prisma pooled URL (required for `@prisma/client`)
 4. Deploy
 
 Routes:

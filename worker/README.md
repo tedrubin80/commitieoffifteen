@@ -20,7 +20,7 @@ This service is a **Python FastAPI** batch worker:
 
 | Variable | Value |
 |----------|--------|
-| `POSTGRES_URL` | Vercel Postgres **non-pooling** URL |
+| `POSTGRES_URL` | Vercel Postgres **non-pooling** URL (or `DATABASE_URL` from Prisma) |
 | `WORKER_SECRET` | random string |
 | `NYC_GEOCLIENT_APP_ID` | optional |
 | `NYC_GEOCLIENT_APP_KEY` | optional |
