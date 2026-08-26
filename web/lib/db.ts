@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import { prisma } from "./prisma";
+import { databaseEnvKeysPresent, prisma, resolveDatabaseUrl } from "./prisma";
 import type { CofRecord, GeoFeature, PrecinctStat, SearchHit } from "./types";
 
 export function nyplImageUrl(imageId: string | null): string | null {
@@ -7,15 +7,16 @@ export function nyplImageUrl(imageId: string | null): string | null {
   return `https://images.nypl.org/index.php?id=${imageId}&t=w`;
 }
 
-/** Prisma / Neon / Vercel Postgres — any of these env names work. */
+/** True if any known Postgres/Prisma URL env is present. */
 export function dbConfigured(): Promise<boolean> {
-  return Promise.resolve(
-    Boolean(
-      process.env.DATABASE_URL ||
-        process.env.POSTGRES_PRISMA_URL ||
-        process.env.POSTGRES_URL,
-    ),
-  );
+  return Promise.resolve(Boolean(resolveDatabaseUrl()));
+}
+
+export function dbEnvStatus() {
+  return {
+    configured: Boolean(resolveDatabaseUrl()),
+    keysPresent: databaseEnvKeysPresent(),
+  };
 }
 
 export async function getPrecinctStats(): Promise<PrecinctStat[]> {

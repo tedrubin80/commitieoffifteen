@@ -1,14 +1,17 @@
 import Link from "next/link";
-import { dbConfigured, getStats } from "@/lib/db";
+import { dbConfigured, dbEnvStatus, getStats } from "@/lib/db";
 
 export default async function HomePage() {
   const configured = await dbConfigured();
+  const envStatus = dbEnvStatus();
   let stats: Record<string, number> | null = null;
+  let dbError: string | null = null;
+
   if (configured) {
     try {
       stats = (await getStats()) as Record<string, number>;
-    } catch {
-      stats = null;
+    } catch (e) {
+      dbError = e instanceof Error ? e.message : String(e);
     }
   }
 
@@ -41,10 +44,30 @@ export default async function HomePage() {
           </div>
         </div>
       ) : (
-        <p className="muted">
-          Database not connected yet — deploy to Vercel with Postgres, then run the Railway worker
-          pipeline.
-        </p>
+        <div className="muted">
+          {!configured ? (
+            <p>
+              No database URL in this deployment. Set{" "}
+              <code>DATABASE_URL</code> or <code>POSTGRES_PRISMA_URL</code> on the Vercel project
+              (Production), then redeploy.
+            </p>
+          ) : (
+            <p>
+              Database URL is set, but the query failed — usually empty schema (run migrate/seed)
+              or a connection string mismatch.
+            </p>
+          )}
+          {envStatus.keysPresent.length > 0 && (
+            <p>
+              Env keys present: <code>{envStatus.keysPresent.join(", ")}</code>
+            </p>
+          )}
+          {dbError && (
+            <pre className="ocrBox" style={{ marginTop: "1rem", maxHeight: 200 }}>
+              {dbError}
+            </pre>
+          )}
+        </div>
       )}
 
       <div className="actions">

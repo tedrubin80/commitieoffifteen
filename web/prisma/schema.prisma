@@ -7,8 +7,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // Set DATABASE_URL to the Prisma/Neon pooled URL from Vercel.
-  // For migrate/db push from CLI, use DIRECT_URL or POSTGRES_URL_NON_POOLING in shell.
+  // Placeholder name for prisma generate. Runtime URL is resolved in lib/prisma.ts
+  // from DATABASE_URL | POSTGRES_PRISMA_URL | POSTGRES_URL.
   url      = env("DATABASE_URL")
 }
 

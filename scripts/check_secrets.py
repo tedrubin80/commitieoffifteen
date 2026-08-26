@@ -45,9 +45,10 @@ def main() -> int:
                 errors.append(f"blocked path staged: {path}")
 
     diff = staged_diff()
-    # Ignore this script's own pattern definitions
+    # Ignore this script's own pattern definitions and local prisma generate placeholders
     diff = re.sub(r"^\+.*check_secrets\.py.*$", "", diff, flags=re.M)
     diff = re.sub(r"^\+.*re\.compile.*$", "", diff, flags=re.M)
+    diff = re.sub(r"postgres(?:ql)?://prisma:prisma@(?:localhost|127\.0\.0\.1)[^\s\"']*", "", diff, flags=re.I)
     for pat in SECRET_PATTERNS:
         if pat.search(diff):
             errors.append(f"secret pattern matched: {pat.pattern}")
