@@ -97,8 +97,8 @@ Full architecture: [PLAN.md](PLAN.md) · Step-by-step: [docs/DEPLOY.md](docs/DEP
 
 | Component | Platform |
 |-----------|----------|
-| Map + search UI | **Vercel** (`web/`) |
-| Postgres | **Vercel Postgres** |
+| Map + search UI | **Vercel** (`web/` + Prisma) |
+| Postgres | **Vercel Postgres / Neon** (Prisma `DATABASE_URL`) |
 | Geocode / OCR sync / mining | **Railway** (`worker/`) |
 
 ```bash
